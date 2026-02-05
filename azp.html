@@ -1,0 +1,135 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Number Grid</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+
+        .question {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .question.clicked {
+            background-color: #4CAF50; /* Green when clicked */
+            color: white;
+        }
+
+        .clear-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .clear-btn:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid" id="questionGrid"></div>
+    <button class="clear-btn" id="clearButton">Clear All</button>
+
+    <script>
+        const data = [
+    { "question_number": 1, "link": "https://www.examtopics.com/discussions/microsoft/view/36092-exam-az-400-topic-3-question-9-discussion/" },
+    { "question_number": 2, "link": "https://www.examtopics.com/discussions/microsoft/view/87016-exam-az-400-topic-4-question-8-discussion/" },
+    { "question_number": 3, "link": "https://www.examtopics.com/discussions/microsoft/view/55151-exam-az-400-topic-4-question-14-discussion/" },
+    { "question_number": 4, "link": "https://www.examtopics.com/discussions/microsoft/view/85472-exam-az-400-topic-4-question-15-discussion/" },
+    { "question_number": 5, "link": "https://www.examtopics.com/discussions/microsoft/view/49719-exam-az-400-topic-4-question-40-discussion/" },
+    { "question_number": 6, "link": "https://www.examtopics.com/discussions/microsoft/view/48958-exam-az-400-topic-4-question-32-discussion/" },
+    { "question_number": 7, "link": "https://www.examtopics.com/discussions/microsoft/view/16452-exam-az-400-topic-4-question-47-discussion/" },
+    { "question_number": 8, "link": "https://www.examtopics.com/discussions/microsoft/view/155541-exam-az-400-topic-6-question-53-discussion/" },
+    { "question_number": 9, "link": "https://www.examtopics.com/discussions/microsoft/view/151191-exam-az-400-topic-6-question-54-discussion/" },
+    { "question_number": 10, "link": "https://www.examtopics.com/discussions/microsoft/view/151164-exam-az-400-topic-9-question-44-discussion/" },
+    { "question_number": 11, "link": "https://www.examtopics.com/discussions/microsoft/view/49165-exam-az-400-topic-7-question-24-discussion/" },
+    { "question_number": 12, "link": "https://www.examtopics.com/discussions/microsoft/view/88199-exam-az-400-topic-8-question-17-discussion/" },
+    { "question_number": 13, "link": "https://www.examtopics.com/discussions/microsoft/view/17871-exam-az-400-topic-8-question-19-discussion/" },
+    { "question_number": 14, "link": "https://www.examtopics.com/discussions/microsoft/view/96950-exam-az-400-topic-7-question-60-discussion/" },
+    { "question_number": 15, "link": "https://www.examtopics.com/discussions/microsoft/view/37479-exam-az-400-topic-8-question-2-discussion/" },
+    { "question_number": 16, "link": "https://www.examtopics.com/discussions/microsoft/view/94802-exam-az-400-topic-8-question-3-discussion/" },
+    { "question_number": 17, "link": "https://www.examtopics.com/discussions/microsoft/view/21072-exam-az-400-topic-7-question-78-discussion/" },
+    { "question_number": 18, "link": "https://www.examtopics.com/discussions/microsoft/view/87249-exam-az-400-topic-8-question-7-discussion/" },
+    { "question_number": 19, "link": "https://www.examtopics.com/discussions/microsoft/view/94812-exam-az-400-topic-8-question-23-discussion/" },
+    { "question_number": 20, "link": "https://www.examtopics.com/discussions/microsoft/view/52162-exam-az-400-topic-8-question-24-discussion/" },
+    { "question_number": 21, "link": "https://www.examtopics.com/discussions/microsoft/view/94816-exam-az-400-topic-8-question-35-discussion/" },
+    { "question_number": 22, "link": "https://www.examtopics.com/discussions/microsoft/view/121081-exam-az-400-topic-8-question-43-discussion/" },
+    { "question_number": 23, "link": "https://www.examtopics.com/discussions/microsoft/view/151084-exam-az-400-topic-9-question-55-discussion/" },
+    { "question_number": 24, "link": "https://www.examtopics.com/discussions/microsoft/view/149793-exam-az-400-topic-9-question-54-discussion/" },
+    { "question_number": 25, "link": "https://www.examtopics.com/discussions/microsoft/view/79976-exam-az-400-topic-2-question-7-discussion/" },
+    { "question_number": 26, "link": "https://www.examtopics.com/discussions/microsoft/view/75423-exam-az-400-topic-2-question-15-discussion/" },
+    { "question_number": 27, "link": "https://www.examtopics.com/discussions/microsoft/view/90217-exam-az-400-topic-2-question-16-discussion/" },
+    { "question_number": 28, "link": "https://www.examtopics.com/discussions/microsoft/view/57999-exam-az-400-topic-2-question-17-discussion/" },
+    { "question_number": 29, "link": "https://www.examtopics.com/discussions/microsoft/view/36092-exam-az-400-topic-3-question-9-discussion/" },
+    { "question_number": 30, "link": "https://www.examtopics.com/discussions/microsoft/view/58336-exam-az-400-topic-17-question-5-discussion/" }
+]
+;
+
+        const questionGrid = document.getElementById('questionGrid');
+        const clearButton = document.getElementById('clearButton');
+
+        // Load clicked questions from localStorage
+        const clickedQuestions = JSON.parse(localStorage.getItem('clickedQuestions')) || [];
+
+        // Function to create question boxes
+        function createQuestionBoxes() {
+            data.forEach(item => {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('question');
+                questionDiv.textContent = item.question_number;
+                if (clickedQuestions.includes(item.question_number)) {
+                    questionDiv.classList.add('clicked');
+                }
+
+                // Add click event to open the link in a new tab
+                questionDiv.addEventListener('click', () => {
+                    window.open(item.link, '_blank');
+                    if (!clickedQuestions.includes(item.question_number)) {
+                        clickedQuestions.push(item.question_number);
+                        localStorage.setItem('clickedQuestions', JSON.stringify(clickedQuestions));
+                        questionDiv.classList.add('clicked');
+                    }
+                });
+
+                questionGrid.appendChild(questionDiv);
+            });
+        }
+
+        // Clear all data from localStorage and reset the grid
+        clearButton.addEventListener('click', () => {
+            localStorage.removeItem('clickedQuestions');
+            const allQuestions = document.querySelectorAll('.question');
+            allQuestions.forEach(question => question.classList.remove('clicked'));
+            clickedQuestions.length = 0;
+        });
+
+        // Initialize the page
+        createQuestionBoxes();
+    </script>
+</body>
+</html>

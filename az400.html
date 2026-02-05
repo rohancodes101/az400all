@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AZ-400 Question Grid</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background: #d2d1d1ff;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 10px;
+    }
+
+    .question {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100px;
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 18px;
+        transition: 0.3s;
+    }
+
+    .question:hover {
+        background-color: #ccc;
+    }
+
+    .question.clicked {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .clear-btn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .clear-btn:hover {
+        background-color: darkred;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>AZ-400 — Questions</h1>
+
+<div class="grid" id="questionGrid"></div>
+
+<button class="clear-btn" id="clearButton">Clear All</button>
+
+<script>
+    const TOTAL_QUESTIONS = 564;
+    const questionGrid = document.getElementById("questionGrid");
+    const clearButton = document.getElementById("clearButton");
+
+    // Load clicked questions from localStorage
+    const newClickedQuestions = JSON.parse(localStorage.getItem("newClickedQuestions")) || [];
+
+    function createQuestionBoxes() {
+        for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+            const q = document.createElement("div");
+            q.className = "question";
+            q.textContent = i;
+
+            if (newClickedQuestions.includes(i)) {
+                q.classList.add("clicked");
+            }
+
+            q.addEventListener("click", () => {
+                const query = `exam topics Exam AZ-400 topic 1 question ${i}`;
+                const url = `https://www.google.com/search?q=${encodeURIComponent(query)}&btnI=I`;
+                window.open(url, "_blank");
+
+                if (!newClickedQuestions.includes(i)) {
+                    newClickedQuestions.push(i);
+                    localStorage.setItem("newClickedQuestions", JSON.stringify(newClickedQuestions));
+                    q.classList.add("clicked");
+                }
+            });
+
+            questionGrid.appendChild(q);
+        }
+    }
+
+    clearButton.addEventListener("click", () => {
+        localStorage.removeItem("newClickedQuestions");
+        document.querySelectorAll(".question").forEach(q => q.classList.remove("clicked"));
+        newClickedQuestions.length = 0;
+    });
+
+    createQuestionBoxes();
+</script>
+
+</body>
+</html>
