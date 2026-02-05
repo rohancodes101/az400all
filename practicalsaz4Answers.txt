@@ -1,0 +1,135 @@
+AZP
+
+creat a function app, left side applciaiton ettings and debugging and set remote debugging to on ands set ms vs code
+
+
+got to mainapp, settings->idenityt->system managed identity toggle on
+The next step is go to KeyVault, access policies - click create, select permissions, select web app MI, click next and save. Do you agree?
+
+
+
+Go to KV - access policy - select permissions - Key - key mgmt- all, key rotation- all, Secret - mgmt- all. After selecting permission, select MI to assign the permission. In this case it is the VM's MI. Look up the MI using the VM MI's object ID. Then click next to make the assignment.
+1 in your VM search input type : identity -> system assigned -> create -> copy object id
+2 in Key vault new access policy -> set permissions -> in principal paste the id -> review create
+
+
+
+NSG->settings->outboutn_add_advanced0dest=808, protocol tcp actioni  allow
+only 443 is needed as destiantion
+Name: Allow-Outbound
+Priority: 100 (or any number lower than 65000)
+Source: Any
+Source Port Range: *
+Destination: Any
+Destination Port Range: 443
+Protocol: TCP
+Action: Allow
+Configure inbound security rules to deny all inbound traffic:
+
+Name: Deny-Inbound
+Priority: 65000 (highest priority)
+Source: Any
+Source Port Range: *
+Destination: Any
+Destination Port Range: *
+Protocol: *
+Action: Deny
+
+
+
+
+new dashboard->auto refresh-> team dashboard->team members widget 
+
+[project left side ->wiki->reder suign mermaid syntax->
+
+
+
+runbooks
+AD->Settings->admins->choose ur username admin and then ->ad service->new user, enable mfa->and then settings->admins->add button
+so it finds AD and then it creates a new user(NON-HUMAN) and then it gives the user the permission to manage subscriptiotn and store that user's creds in azure autoamtion as run book?
+
+azure data abse -> settings->conenciton security-> enter start and end ips
+
+
+
+devtest labs in all services section of devops => Add + window datacenter+artifacts+selenium and ogole hrome rowser+> ok
+
+
+deploy json
+custom template+ add /24 (for 256) and /26 (for 64) IPs
+
+
+app service=> configuration->applciaiton settings - env-> max_items = 500
+
+
+
+signed images in container registry -> content trust  enable
+
+
+container registry -> services->webhooks -> actions to push and save
+
+add eployment slot in app service as staging environment ad do not clone settings
+
+
+go to dataase and select automatic tuning on the database
+
+
+10% go to slots in app service and put the traffic percentage
+
+
+create traffic manager profile, routing method is geographic, 
+
+
+go create pipeline in devops and sleetc githu source and sign in and in GitHub install azure pipelines app , and it will suggest which template yaml.
+
+
+in the devops, right side top manage extensiona dn isntal the extension(ms security devops)and then give source of code nad then starter pipeline 	
+and then paste the yaml as per the question.
+
+
+
+azure any resource => deverlopers tools -> application isnigths-> then in vs, right click solution exploreradd + aaplcaiton insights telemetry data 
+
+
+app service-> monitoring-> alert + add alert rule+threhold 5, period over last 5 mins, webhook 
+
+
+
+add sorgea acocutn and store boot file and then go to vm portal, support -> boot diagnositcs->settign->status to ONand choose storage account and restart VM
+
+
+enable diagnostics settings in databaseand then send to log analystics, log is querystoreruntimestatsitisc+metric is basic 
+
+
+to rempotely attach vscode, go to fucntion-> debugging -> remote debugging enable and set vs code
+
+
+
+
+
+
+=======
+
+create an action group to notify 2 suers by email and all the people with the role Owner.
+
+Create an organisation in azure devops
+
+create a dashboard which displays the team members
+
+add external users with the most restrictive role
+
+initiliaze a main branch
+
+add some policies to protect the main branch (four-eyes principal google it)
+
+install the microsoft devops security extension from the marketplace
+
+make sure artifices and symbols are retained 60 days before being deleted
+
+build a starter pipeline and add a microsoft DevOps security task (they specify the inputs for you, command, some other advanced commands etc..)
+
+add a variable group and populate it with two different value / Key pairs
+
+build a basic sequence diagram to simulate a three-way handshake between server and client
+
+a KQL query from azure data explorer from a table named Requests I think and the question is to query all the requests received by a webapp in the last three months of 2021 and the output should displayed using two new columns SourceIP and NumberOfRequests
